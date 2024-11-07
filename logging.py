@@ -11,6 +11,13 @@ class DatabricksWriteStats:
     notebook_full_path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
     # notebook_name = os.path.basename(notebook_full_path)
 
+
+    def get_schema(self) -> requests.Response:
+        return requests.get(
+            url=self.base_url + "/schema",
+            params={"code":self.afa_code}
+        )
+    
     def _write_to_log(self, record:dict): 
         stats_table = 'edw_audit.house_keeping.etl_write_statistics'
         row_schema = [
